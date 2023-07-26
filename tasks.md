@@ -48,7 +48,7 @@ SELECT COUNT(*) FROM matches WHERE division_code = 'D1' AND (hometeam = 'Freibur
 6) How many different teams have played in matches recorded in a French division?
 
 ```sql
-<!-- Copy solution here -->
+<!SELECT COUNT(*) FROM (SELECT DISTINCT matches.hometeam FROM divisions JOIN matches ON divisions.code=matches.division_code AND divisions.country = 'France') I
 
 
 ```
@@ -64,7 +64,8 @@ SELECT COUNT(*) FROM matches WHERE division_code = 'D1' AND (hometeam = 'Freibur
 8) How many draws were there in the `Eredivisie` between 2010 and 2015?
 
 ```sql
-<!-- Copy solution here -->
+<! SELECT code FROM divisions WHERE name = 'Eredivisie';
+   SELECT COUNT(id) FROM matches WHERE division_code = 'N1' AND season BETWEEN 2010 AND 2015 AND ftr = 'D';
 
 
 ```
