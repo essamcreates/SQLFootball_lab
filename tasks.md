@@ -21,7 +21,7 @@ Each of the questions/tasks below can be answered using a `SELECT` query. When y
 3) What are the names of the Scottish divisions included?
 
 ```sql
-<! SELECT name FROM divisions WHERE code IN ('SC0', 'SC1', 'SC2');  
+<!  SELECT name FROM divisions WHERE country = 'Scotland'; 
 
 
 ```
@@ -30,7 +30,7 @@ Each of the questions/tasks below can be answered using a `SELECT` query. When y
 
 ```sql
 <!SELECT code FROM divisions WHERE name = 'Bundesliga';
-SELECT COUNT(*) FROM matches WHERE division_code = 'D1' AND (hometeam = 'Freiburg' OR awayteam = 'Freiburg'); 
+  SELECT COUNT(*) FROM matches WHERE division_code = 'D1' AND (hometeam = 'Freiburg' OR awayteam = 'Freiburg'); 
 
 
 ```
@@ -48,7 +48,7 @@ SELECT COUNT(*) FROM matches WHERE division_code = 'D1' AND (hometeam = 'Freibur
 6) How many different teams have played in matches recorded in a French division?
 
 ```sql
-<!SELECT COUNT(*) FROM (SELECT DISTINCT matches.hometeam FROM divisions JOIN matches ON divisions.code=matches.division_code AND divisions.country = 'France') I
+<!SELECT COUNT(DISTINCT hometeam) FROM matches WHERE division_code = 'F1' OR division_code = 'F2';
 
 
 ```
@@ -56,7 +56,7 @@ SELECT COUNT(*) FROM matches WHERE division_code = 'D1' AND (hometeam = 'Freibur
 7) Have Huddersfield played Swansea in any of the recorded matches?
 
 ```sql
-<!-- Copy solution here -->
+<!SELECT COUNT(*) FROM matches WHERE (hometeam = 'Huddersfield' AND awayteam = 'Swansea') OR (hometeam = 'Swansea' AND awayteam = 'Huddersfield'); 
 
 
 ```
@@ -73,15 +73,20 @@ SELECT COUNT(*) FROM matches WHERE division_code = 'D1' AND (hometeam = 'Freibur
 9) Select the matches played in the Premier League in order of total goals scored from highest to lowest. When two matches have the same total the match with more home goals should come first.
 
 ```sql
-<!SELECT code FROM divisions WHERE name = 'Premier League';
-SELECT * FROM matches WHERE division_code = 'E0' ORDER BY (fthg + ftag) DESC, fthg DESC; 
+<!SELECT code FROM divisions WHERE name = 'Premier League'; -- this gives us the code 'E0'
+  SELECT * FROM matches WHERE division_code = 'E0' ORDER BY (fthg + ftag) DESC, fthg DESC; 
 
 ```
 
 10) In which division and which season were the most goals scored?
 
 ```sql
-<!SELECT division_code, season FROM matches ORDER BY (fthg + ftag) DESC, fthg DESC LIMIT 1; 
+<!SELECT division_code, season, SUM (fthg + ftag)
+  FROM matches
+  GROUP BY division_code, season
+  ORDER BY sum DESC LIMIT 1;  -- this paragraph gives you the code for the division and season in which the most goals were scored
+
+  SELECT name FROM divisions WHERE code = 'EC'; -- this gives you the name of the division code for 'EC' 
 
 
 ```
